@@ -29,7 +29,7 @@ The Insurance Cost Prediction and Smoker Classification project utilizes a struc
 
 ## Dataset
 **Dataset Overview**:
-- **Source**: [Kaggle Insurance Dataset](https://www.kaggle.com/)
+- **Source**: [Kaggle Insurance Dataset]([https://www.kaggle.com/](https://www.kaggle.com/datasets/willianoliveiragibin/healthcare-insurance))
 - **Attributes**:
   - **Numerical**: age, BMI, charges.
   - **Categorical**: sex, smoker, region.
