@@ -1,0 +1,9 @@
+{
+  "fitting_rows": 801,
+  "seed": 42,
+  "data_sha256": "86e8a23e04cdeac63c8e9a11c10443137392396af030ea314ad8c3ba6be61f1b",
+  "folds": 5,
+  "calibration_and_test_used_for_scoring": false,
+  "status": "Exploratory follow-up motivated by previously inspected test diagnostics; no new independent final performance claim.",
+  "interpretation": "Scores in original dollar units after inverse transformation. Log predictions are not bias-corrected conditional means. Deployed model and calibration remain unchanged."
+}
