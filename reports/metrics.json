@@ -1,0 +1,59 @@
+{
+  "selected_model": "Random forest leaf=5",
+  "seed": 42,
+  "data_sha256": "86e8a23e04cdeac63c8e9a11c10443137392396af030ea314ad8c3ba6be61f1b",
+  "rows": {
+    "deduplicated": 1337,
+    "fit": 801,
+    "calibration": 268,
+    "test": 268
+  },
+  "cross_validation": [
+    {
+      "model": "Random forest leaf=5",
+      "CV_MAE_USD": 2942.717194743751,
+      "fold_MAE_SD_USD": 366.1571211464794
+    },
+    {
+      "model": "Gradient boosting leaves=7",
+      "CV_MAE_USD": 3064.7101829073704,
+      "fold_MAE_SD_USD": 364.15443838744267
+    },
+    {
+      "model": "Gradient boosting leaves=15",
+      "CV_MAE_USD": 3246.4602042155175,
+      "fold_MAE_SD_USD": 459.87598722805194
+    },
+    {
+      "model": "Ridge alpha=1",
+      "CV_MAE_USD": 4558.948726527729,
+      "fold_MAE_SD_USD": 330.25506324636996
+    },
+    {
+      "model": "Ridge alpha=100",
+      "CV_MAE_USD": 5323.074570892467,
+      "fold_MAE_SD_USD": 322.2160300956283
+    },
+    {
+      "model": "Median baseline",
+      "CV_MAE_USD": 8489.897454008238,
+      "fold_MAE_SD_USD": 800.5180815287542
+    }
+  ],
+  "test": {
+    "MAE_USD": 2309.3942289556644,
+    "RMSE_USD": 3591.893399826438,
+    "R2": 0.9105015350394013
+  },
+  "test_median_baseline": {
+    "MAE_USD": 8144.306382238806,
+    "RMSE_USD": 12484.938031897673,
+    "R2": -0.0812882666092507
+  },
+  "interval": {
+    "nominal_coverage": 0.9,
+    "test_coverage": 0.9104477611940298,
+    "radius_USD": 5141.968418750264,
+    "mean_width_USD": 10004.548378918827
+  }
+}
