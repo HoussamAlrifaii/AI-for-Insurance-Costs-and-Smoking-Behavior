@@ -1,0 +1,8 @@
+{
+  "data_sha256": "86e8a23e04cdeac63c8e9a11c10443137392396af030ea314ad8c3ba6be61f1b",
+  "test_rows": 268,
+  "model_refitted": false,
+  "calibration_recomputed": false,
+  "application_updated": false,
+  "status": "Exploratory follow-up on an already inspected test set, not independent final confirmation. Do not use these results for further test-driven tuning."
+}
