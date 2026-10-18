@@ -1,0 +1,12 @@
+{
+  "candidate": "Random forest leaf=5 with log1p target",
+  "fitting_rows": 801,
+  "calibration_rows": 268,
+  "nominal_coverage": 0.9,
+  "residual_rank": 243,
+  "radius_USD": 3916.7356451773867,
+  "data_sha256": "86e8a23e04cdeac63c8e9a11c10443137392396af030ea314ad8c3ba6be61f1b",
+  "test_evaluated": false,
+  "application_updated": false,
+  "limitations": "Exploratory candidate following prior test diagnostics. Independence and exchangeability assumptions remain necessary. Calibration margin alone is not a performance comparison or individual coverage guarantee."
+}
