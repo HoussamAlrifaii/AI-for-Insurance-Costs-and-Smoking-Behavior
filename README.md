@@ -8,7 +8,7 @@ An educational regression project with reproducible preprocessing, cross-validat
 
 - Six fixed candidate configurations compared using five-fold training-only CV.
 - Median imputation, scaling and one-hot encoding fitted inside training folds.
-- Separate fitting, calibration and test partitions with no target scaling.
+- Separate fitting, calibration and test partitions; the app trains on log-transformed charges and converts estimates back to dollars.
 - Original-dollar MAE/RMSE, R², median-baseline comparison and nominal 90% calibrated ranges.
 - Subgroup error, bias and coverage; original-feature permutation importance.
 - Executed EDA notebook, HTML export, automated tests and an interactive app.
@@ -19,7 +19,7 @@ An educational regression project with reproducible preprocessing, cross-validat
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python -m medcost.training
+python -m medcost.calibrate_log
 python -m pytest -q
 python -m streamlit run app.py
 ```
@@ -34,7 +34,7 @@ python scripts/execute_notebook.py
 
 The fixed split contains 801 fitting, 268 calibration and 268 test records after removing one exact duplicate. Missing BMI records are retained and imputed using training-only statistics. See [machine-readable metrics](reports/metrics.json) for results and [the model card](docs/MODEL_CARD.md) for the evaluation protocol and limitations. Results use a different split and cleaning strategy from the original coursework, so they are not a controlled before-and-after comparison.
 
-## Verified results
+## Original experiment results
 
 | Held-out test measure | Result |
 |---|---:|
@@ -48,6 +48,16 @@ The fixed split contains 801 fitting, 268 calibration and 268 test records after
 
 MAE was 71.6% below the median baseline on this fixed test sample. Wide intervals and individual errors limit use despite the average improvement. Neither R² nor MAE reduction is classification accuracy. This experiment does not establish reliable current-day pricing.
 
+## Current app: log-target model
+
+The app now uses the log-target random forest, fitted on 801 rows and calibrated on 268 separate rows. It creates this fixed model once per app process and caches it in memory; no saved pickle is loaded, model search is not repeated, and test data is not scored at startup.
+
+The log-target extension improved mean CV MAE across five fold arrangements (approximately $2,470 versus $2,986). Its follow-up comparison on the already inspected test set gave MAE **$1,753**, **79.9%** within $2,000 and overall prediction-range coverage **91.4%**. The calibrated margin is **±$3,917**. These are exploratory follow-up results, not fresh independent confirmation.
+
+**High-charge limitation:** among 52 test records with actual charges >= $20,000, MAE was $4,144 and range coverage was only 71.2%. Overall coverage does not guarantee subgroup or individual coverage. The app cannot know a person's actual charge group beforehand.
+
+Read [the comparison](reports/LOG_TEST_COMPARISON.md), [stability check](reports/STABILITY_EXPERIMENT.md), and [calibration explanation](reports/LOG_CALIBRATION.md). Original notebook and original model reports remain historical experiment evidence; they do not describe the current app model. Reproduce the original experiment using `python -m medcost.training` and the follow-up using the commands in those reports.
+
 ## Explore
 
 - [Executed EDA and modeling notebook](notebooks/01_medical_costs.ipynb)
@@ -59,7 +69,7 @@ MAE was 71.6% below the median baseline on this fixed test sample. Wide interval
 
 ## Deployment
 
-After publishing the code to GitHub, create a Streamlit Community Cloud app with this repository, branch `main`, entry point `app.py`, and Python 3.12. On first startup the app trains the deterministic pipeline and caches its trusted local artifact; no GPU, API key or external dataset download is required. Generated model files are not committed. Pickle artifacts must never be loaded from untrusted sources. Restart/redeploy after changing code or data to avoid stale cached artifacts. A public hosting account and its deployment action are still required.
+After publishing the code to GitHub, create a Streamlit Community Cloud app with this repository, branch `main`, entry point `app.py`, and Python 3.12. On first startup the app fits and calibrates the fixed log-target model and caches it in memory; no GPU, API key or external dataset download is required. Generated model files are not committed. Pickle artifacts must never be loaded from untrusted sources. Restart/redeploy after changing code or data to avoid stale cached artifacts. A public hosting account and its deployment action are still required.
 
 ## Data and original work
 

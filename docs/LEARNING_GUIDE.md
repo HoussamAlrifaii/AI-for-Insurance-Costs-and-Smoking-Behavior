@@ -52,3 +52,9 @@ Use a CPU runtime and save your notebook copy in Drive. In a new notebook, run:
 ```
 
 Use a fresh runtime if you already cloned this directory. Colab package compatibility may differ from the tested Python 3.12 environment; inspect errors rather than assume success. `python scripts/execute_notebook.py` writes an executed notebook and HTML report in the checkout, which you can download through Colab's file browser. Sessions are temporary; downloaded files and saved Drive copies persist separately. Never paste private medical information into the demonstration.
+
+## Current application update
+
+The application now uses the log-target extension rather than the original-dollar target forest. Run `python -m medcost.calibrate_log` to reproduce its fit and calibration; run `python -m streamlit run app.py` to start the interface. The app builds this model itself on first startup, so saved artifacts are optional. The original training command and executed notebook still reproduce the original experiment.
+
+The follow-up candidate's MAE was $1,753, but its test set had already informed the research direction. This is exploratory. High-charge errors and coverage are worse than the overall figures suggest; the app displays this explicitly. See `reports/LOG_TEST_COMPARISON.md`.

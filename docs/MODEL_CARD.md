@@ -14,7 +14,7 @@ The checked-in CSV is preserved unchanged: 1,338 rows, seven columns, three miss
 
 Inputs: age (18–64 in the source), sex (female/male in the source), BMI, children/dependents (0–5), self-reported smoker flag, US region. Target: charges, in original source units. No target normalization is used. Region is one-hot encoded rather than discarded. Missing numeric values use training-fold medians; categorical values use training-fold modes. Unknown categories are handled by the encoder, although the interface constrains inputs to source categories. Accepted individual ranges do not establish coverage of every combination.
 
-## Evaluation protocol
+## Original experiment evaluation protocol
 
 A fixed random seed of 42 partitions deduplicated observations, stratifying by smoking group: 801 fitting rows, 268 calibration rows, and 268 test rows. All preprocessing fits inside each CV fold. Five-fold shuffled cross-validation on fitting rows compares a median-only baseline, two Ridge penalties, a random forest, and two histogram gradient boosting configurations. The model with lowest mean CV MAE is fitted on all fitting rows only. Calibration and test targets do not select the model.
 
@@ -27,3 +27,11 @@ The final test reports MAE, RMSE and R², median-baseline comparison, coverage a
 Read `reports/metrics.json` for reproducible current results and `reports/subgroup_errors.csv` for group counts, error, bias and interval coverage. Lower MAE is better; R² is not a percentage accuracy measure. Cross-validation fold standard deviations are not confidence intervals. Predictions can still be substantially wrong for individual records. Random splitting cannot rule out shared people or household dependence because no person identifiers are supplied.
 
 The original coursework used a different split, dropped missing rows, and normalized the target using full-dataset maxima. New scores must not be presented as a controlled algorithm-only improvement over that experiment. Source uncertainty, small sample size, unmeasured medical history, distribution shift, and wide intervals prevent operational readiness claims.
+
+## Current app model: log-target extension
+
+The app now uses `build_bundle()` in `medcost/calibrate_log.py`: the same random forest configuration with `log1p(charges)` as its fitting target, then `expm1` to return predictions to dollars. This changes fitting priorities and does not produce bias-corrected conditional-mean estimates. The model fits 801 records; dollar residuals from 268 calibration records determine a $3,916.74 margin. Neither calibration nor test data fits the regression model.
+
+Repeated CV favored the log-target version for overall MAE, with slightly worse high-charge errors. The follow-up on the previously inspected test set yielded MAE $1,753 and overall range coverage 91.4%, but high-charge-group coverage was 71.2%. This is exploratory, not an independent final confirmation. Fresh data is needed for stronger claims. See `reports/LOG_TEST_COMPARISON.md`; the earlier `reports/metrics.json`, subgroup report, importance and notebook describe the original experiment.
+
+On app startup, the fixed model and its calibration are computed and cached in memory, without reading pickle files or rerunning candidate selection/test evaluation. All examples and metrics refer to the same historical source limitations. No fabricated data was introduced.
