@@ -58,6 +58,14 @@ The log-target extension improved mean CV MAE across five fold arrangements (app
 
 Read [the comparison](reports/LOG_TEST_COMPARISON.md), [stability check](reports/STABILITY_EXPERIMENT.md), and [calibration explanation](reports/LOG_CALIBRATION.md). Original notebook and original model reports remain historical experiment evidence; they do not describe the current app model. Reproduce the original experiment using `python -m medcost.training` and the follow-up using the commands in those reports.
 
+## Use the interface
+
+- **Estimate charges:** enter a profile or choose **Try an example profile**, then submit. The estimate and calibrated range appear alongside the form, labeled with the profile used.
+- **How it works:** read a plain-language explanation of the inputs, model and prediction range.
+- **Results & limitations:** inspect overall results and the weaker high-charge performance.
+
+The example is an illustrative input profile, not a known bill or a test record. It is not added to the training data. Editing inputs requires a new submission; the displayed profile identifies the last submitted estimate.
+
 ## Explore
 
 - [Executed EDA and modeling notebook](notebooks/01_medical_costs.ipynb)
